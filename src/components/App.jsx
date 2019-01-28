@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import "../css/App.css";
+import Question from "./Question.jsx";
+import AnswerList from "./AnswerList.jsx";
+import Answer from "./Answer.jsx";
 // import components
 import Question from "./Question.jsx";
 

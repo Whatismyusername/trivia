@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 // import components
 
+// questions :
+
+
 class Question extends Component {
   render() {
     return (
