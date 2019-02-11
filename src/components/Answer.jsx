@@ -3,11 +3,18 @@ import React, { Component } from "react";
 import "../css/Answer.css";
 
 class Answer extends Component {
+  handleClick() {
+    if (this.props.isCorrect) {
+      alert("Correct answer");
+    } else {
+      alert("wrong");
+    }
+  }
   render() {
     return (
-      <div className="Answer">
+      <button className="Answer" onClick={() => this.handleClick()}>
         <p>{this.props.name}</p>
-      </div>
+      </button>
     );
   }
 }

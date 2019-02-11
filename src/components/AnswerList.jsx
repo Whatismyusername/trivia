@@ -6,9 +6,9 @@ class AnswerList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      answer: ["Mars", "Mercury", "Jupiter", "Earth"],
+      answer: this.props.answer,
       icon: ["heart", "smiley", "sun", "triangle"],
-      shuffle: true,
+      shuffle: false,
       correctAnsIdx: this.props.correctAnsIdx
     };
   }
@@ -41,11 +41,23 @@ class AnswerList extends Component {
 
   render() {
     return (
-      <div class="answerList">
-        <Answer name={this.state.answer[0]} />
-        <Answer name={this.state.answer[1]} />
-        <Answer name={this.state.answer[2]} />
-        <Answer name={this.state.answer[3]} />
+      <div className="answerList">
+        <Answer
+          name={this.state.answer[0]}
+          isCorrect={0 === this.props.correctAnsIdx}
+        />
+        <Answer
+          name={this.state.answer[1]}
+          isCorrect={1 === this.props.correctAnsIdx}
+        />
+        <Answer
+          name={this.state.answer[2]}
+          isCorrect={2 === this.props.correctAnsIdx}
+        />
+        <Answer
+          name={this.state.answer[3]}
+          isCorrect={3 === this.props.correctAnsIdx}
+        />
       </div>
     );
   }
