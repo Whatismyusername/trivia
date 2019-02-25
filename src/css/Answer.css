@@ -1,0 +1,10 @@
+.answerList {
+  width: 100%;
+  height: 80%;
+  border-style: solid;
+  border-color: black;
+}
+#Choice {
+  background-color: black;
+  color: red;
+}
