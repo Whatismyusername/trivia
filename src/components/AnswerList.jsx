@@ -8,9 +8,20 @@ class AnswerList extends Component {
     this.state = {
       answer: this.props.answer,
       icon: ["heart", "smiley", "sun", "triangle"],
-      shuffle: true,
+      shuffle: false,
       correctAnsIdx: this.props.correctAnsIdx
     };
+    //this.updateQuestion();
+    // console.log(this.state)
+  }
+
+  componentWillReceiveProps() {
+    this.updateState({
+      answer: this.props.answer,
+      icon: ["heart", "smiley", "sun", "triangle"],
+      shuffle: false,
+      correctAnsIdx: this.props.correctAnsIdx
+    });
   }
 
   shuffle() {
@@ -19,10 +30,9 @@ class AnswerList extends Component {
       correctAnsIdx: ""
     };
     if (this.state.shuffle) {
-      let initialArray = this.props.answer;
       var usedIdx = [];
-      for (var i = 0; i < this, props.answer.length; i++) {
-        let num = generateNewIdx(usedIdx);
+      for (var i = 0; i < this.props.answer.length; i++) {
+        let num = this.generateNewIdx(usedIdx);
         if (num === this.props.correctAnsIdx) {
           currentQuestion.correctAnsIdx = num;
         }
@@ -34,44 +44,46 @@ class AnswerList extends Component {
       currentQuestion.correctAnsIdx = this.props.correctAnsIdx;
     }
 
-    this.setState({
+    this.updateState({
       answer: currentQuestion.answer,
+      icon: ["heart", "smiley", "sun", "triangle"],
+      shuffle: false,
       correctAnsIdx: currentQuestion.correctAnsIdx
     });
   }
 
   generateNewIdx(usedIdx) {
-    let num = math.floor(Math.random * this.props.answer.length);
+    let num = Math.floor(Math.random() * this.props.answer.length);
     if (usedIdx.includes(num)) {
-      generateNewIdx(usedIdx);
+      this.generateNewIdx(usedIdx);
     } else {
       return num;
     }
   }
 
-  updateQuestion() {
-    shuffle();
+  updateState(newState) {
+    this.setState(newState);
   }
 
   render() {
     return (
       <div className="answerList">
         <Answer
-          id="Choice"
+          className=""
           name={this.props.answer[0]}
-          isCorrect={0 === this.state.correctAnsIdx}
+          isCorrect={0 === this.props.correctAnsIdx}
         />
         <Answer
-          name={this.state.answer[1]}
-          isCorrect={1 === this.state.correctAnsIdx}
+          name={this.props.answer[1]}
+          isCorrect={1 === this.props.correctAnsIdx}
         />
         <Answer
-          name={this.state.answer[2]}
-          isCorrect={2 === this.state.correctAnsIdx}
+          name={this.props.answer[2]}
+          isCorrect={2 === this.props.correctAnsIdx}
         />
         <Answer
-          name={this.state.answer[3]}
-          isCorrect={3 === this.state.correctAnsIdx}
+          name={this.props.answer[3]}
+          isCorrect={3 === this.props.correctAnsIdx}
         />
       </div>
     );

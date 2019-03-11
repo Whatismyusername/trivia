@@ -5,10 +5,17 @@ import "../css/Answer.css";
 class Answer extends Component {
   handleClick() {
     if (this.props.isCorrect) {
-      alert("Correct answer");
+      this.correctAnswer();
     } else {
-      alert("wrong");
+      this.incorrectAnswer();
     }
+  }
+
+  correctAnswer() {
+    alert("Correct!");
+  }
+  incorrectAnswer() {
+    alert("Oops! Try again.");
   }
   render() {
     return (

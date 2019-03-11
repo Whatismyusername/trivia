@@ -5,5 +5,8 @@
   border-color: transparent;
 }
 .QText {
-  color: white;
+  color: green;
+}
+.button {
+  background-color: pink;
 }
