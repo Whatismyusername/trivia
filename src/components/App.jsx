@@ -30,9 +30,18 @@ class App extends Component {
           randomQuestion.correct_choice_index
         );
 
-        console.log(randomQuestion.choices);
-        console.log(answer.answer);
-        console.log("app", answer);
+        console.log(
+          "before shuffled: " +
+            randomQuestion.choices +
+            ", correct index:" +
+            randomQuestion.correct_choice_index
+        );
+        console.log(
+          "after shuffled: " +
+            answer.answer +
+            ", correct index:" +
+            answer.correctAnsIdx
+        );
         this.setState({
           currentQuestion: {
             questionText: randomQuestion.question_text,
@@ -43,67 +52,69 @@ class App extends Component {
       });
   }
 
-  // shuffle(answer, idx) {
-  //   var currentQuestion = {
-  //     answer: [],
-  //     correctAnsIdx: ""
-  //   };
-  //   console.log(this.state.shuffle);
-  //   if (this.state.shuffle) {
-  //     console.log("Shuffle");
-  //     var usedIdx = [];
-  //     for (var i = 0; i < answer.length; i++) {
-  //       let num = this.generateNewIdx(usedIdx, answer.length);
-  //       if (num === idx) {
-  //         currentQuestion.correctAnsIdx = num;
-  //       }
-  //       console.log(answer, num);
-  //       currentQuestion.answer.push(answer[num]);
-  //       usedIdx.push(num);
-  //     }
-  //   } else {
-  //     currentQuestion.answer = answer;
-  //     currentQuestion.correctAnsIdx = idx;
-  //   }
-  //   return currentQuestion;
-  // }
-
-  // generateNewIdx(usedIdx, length) {
-  //   let num = Math.floor(Math.random() * length);
-  //   if (usedIdx.includes(num)) {
-  //     this.generateNewIdx(usedIdx, length);
-  //   } else {
-  //     usedIdx.push(num);
-  //     return num;
-  //   }
-  // }
-
-  shuffle(answerChoices, correctIdx) {
-    var shuffled = {
+  shuffle(answer, idx) {
+    var currentQuestion = {
       answer: [],
-      correctIdx: ""
+      correctAnsIdx: ""
     };
-    var shuffledIdx = [];
-    var newIdxArray = this.newIdxArray(shuffledIdx, answerChoices.length);
-    for (var i = 0; i < newIdxArray.length; i++) {
-      shuffled.answer.push(newIdxArray[i]);
-    }
-  }
-
-  newIdxArray(shuffledIdx, length) {
-    let randomIdx = Math.floor(Math.random() * length);
-    if (shuffledIdx.includes(randomIdx)) {
-      this.newIdxArray(shuffledIdx, length);
+    console.log(this.state.shuffle);
+    if (this.state.shuffle) {
+      console.log("Shuffle");
+      var usedIdx = [];
+      for (var i = 0; i < answer.length; i++) {
+        this.generateNewIdx(usedIdx, answer.length);
+      }
+      for (var j = 0; j < answer.length; j++) {
+        currentQuestion.answer.push(answer[usedIdx[j]]);
+      }
+      for (var a = 0; a < usedIdx.length; a++) {
+        if (usedIdx[a] === idx) {
+          currentQuestion.correctAnsIdx = a;
+        }
+      }
     } else {
-      shuffledIdx.push(randomIdx);
-      newCorrectIdx;
+      currentQuestion.answer = answer;
+      currentQuestion.correctAnsIdx = idx;
     }
-    if (shuffledIdx.length < length) {
-      this.newIdxArray(shuffledIdx, length);
+    return currentQuestion;
+  }
+
+  generateNewIdx(usedIdx, length) {
+    let num = Math.floor(Math.random() * length);
+    if (usedIdx.includes(num) || isNaN(num)) {
+      this.generateNewIdx(usedIdx, length);
+    } else {
+      usedIdx.push(num);
+      return num;
     }
   }
 
-  newCorrectIdx() {}
+  // shuffle(answerChoices, correctIdx) {
+  //   var shuffled = {
+  //     answer: [],
+  //     correctIdx: ""
+  //   };
+  //   var shuffledIdx = [];
+  //   var newIdxArray = this.newIdxArray(shuffledIdx, answerChoices.length);
+  //   for (var i = 0; i < newIdxArray.length; i++) {
+  //     shuffled.answer.push(newIdxArray[i]);
+  //   }
+  // }
+
+  // newIdxArray(shuffledIdx, length) {
+  //   let randomIdx = Math.floor(Math.random() * length);
+  //   if (shuffledIdx.includes(randomIdx)) {
+  //     this.newIdxArray(shuffledIdx, length);
+  //   } else {
+  //     shuffledIdx.push(randomIdx);
+  //     newCorrectIdx;
+  //   }
+  //   if (shuffledIdx.length < length) {
+  //     this.newIdxArray(shuffledIdx, length);
+  //   }
+  // }
+
+  // newCorrectIdx() {}
 
   render() {
     return (
