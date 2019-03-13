@@ -15,9 +15,9 @@ class App extends Component {
       currentQuestion: {
         questionText: "What planet is closest to the sun?",
         answer: ["Mars", "Mercury", "Jupiter", "Earth"],
-        correctAnsIdx: 0,
-        shuffle: false
-      }
+        correctAnsIdx: 0
+      },
+      shuffle: true
     };
     firebaseDatabase
       .ref("/questions")
@@ -29,47 +29,81 @@ class App extends Component {
           randomQuestion.choices,
           randomQuestion.correct_choice_index
         );
+
+        console.log(randomQuestion.choices);
+        console.log(answer.answer);
+        console.log("app", answer);
         this.setState({
           currentQuestion: {
             questionText: randomQuestion.question_text,
-            answer: answer.choices,
+            answer: answer.answer,
             correctAnsIdx: answer.correctAnsIdx
-          },
-          shuffle: false
+          }
         });
       });
   }
 
-  shuffle(answer, idx) {
-    var currentQuestion = {
+  // shuffle(answer, idx) {
+  //   var currentQuestion = {
+  //     answer: [],
+  //     correctAnsIdx: ""
+  //   };
+  //   console.log(this.state.shuffle);
+  //   if (this.state.shuffle) {
+  //     console.log("Shuffle");
+  //     var usedIdx = [];
+  //     for (var i = 0; i < answer.length; i++) {
+  //       let num = this.generateNewIdx(usedIdx, answer.length);
+  //       if (num === idx) {
+  //         currentQuestion.correctAnsIdx = num;
+  //       }
+  //       console.log(answer, num);
+  //       currentQuestion.answer.push(answer[num]);
+  //       usedIdx.push(num);
+  //     }
+  //   } else {
+  //     currentQuestion.answer = answer;
+  //     currentQuestion.correctAnsIdx = idx;
+  //   }
+  //   return currentQuestion;
+  // }
+
+  // generateNewIdx(usedIdx, length) {
+  //   let num = Math.floor(Math.random() * length);
+  //   if (usedIdx.includes(num)) {
+  //     this.generateNewIdx(usedIdx, length);
+  //   } else {
+  //     usedIdx.push(num);
+  //     return num;
+  //   }
+  // }
+
+  shuffle(answerChoices, correctIdx) {
+    var shuffled = {
       answer: [],
-      correctAnsIdx: ""
+      correctIdx: ""
     };
-    if (this.state.shuffle) {
-      var usedIdx = [];
-      for (var i = 0; i < answer.length; i++) {
-        let num = this.generateNewIdx(usedIdx);
-        if (num === idx) {
-          currentQuestion.correctAnsIdx = num;
-        }
-        currentQuestion.answer.push(answer[num]);
-        usedIdx.push(num);
-      }
-    } else {
-      currentQuestion.answer = answer;
-      currentQuestion.correctAnsIdx = idx;
+    var shuffledIdx = [];
+    var newIdxArray = this.newIdxArray(shuffledIdx, answerChoices.length);
+    for (var i = 0; i < newIdxArray.length; i++) {
+      shuffled.answer.push(newIdxArray[i]);
     }
-    return currentQuestion;
   }
 
-  generateNewIdx(usedIdx) {
-    let num = Math.floor(Math.random() * this.props.answer.length);
-    if (usedIdx.includes(num)) {
-      this.generateNewIdx(usedIdx);
+  newIdxArray(shuffledIdx, length) {
+    let randomIdx = Math.floor(Math.random() * length);
+    if (shuffledIdx.includes(randomIdx)) {
+      this.newIdxArray(shuffledIdx, length);
     } else {
-      return num;
+      shuffledIdx.push(randomIdx);
+      newCorrectIdx;
+    }
+    if (shuffledIdx.length < length) {
+      this.newIdxArray(shuffledIdx, length);
     }
   }
+
+  newCorrectIdx() {}
 
   render() {
     return (

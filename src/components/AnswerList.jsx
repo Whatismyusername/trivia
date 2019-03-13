@@ -5,60 +5,14 @@ import "../css/Answer.css";
 class AnswerList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      answer: this.props.answer,
-      icon: ["heart", "smiley", "sun", "triangle"],
-      shuffle: false,
-      correctAnsIdx: this.props.correctAnsIdx
-    };
+    // this.state = {
+    //   answer: this.props.answer,
+    //   icon: ["heart", "smiley", "sun", "triangle"],
+    //   shuffle: false,
+    //   correctAnsIdx: this.props.correctAnsIdx
+    // };
     //this.updateQuestion();
-    // console.log(this.state)
-  }
-
-  componentWillReceiveProps() {
-    this.updateState({
-      answer: this.props.answer,
-      icon: ["heart", "smiley", "sun", "triangle"],
-      shuffle: false,
-      correctAnsIdx: this.props.correctAnsIdx
-    });
-  }
-
-  shuffle() {
-    var currentQuestion = {
-      answer: [],
-      correctAnsIdx: ""
-    };
-    if (this.state.shuffle) {
-      var usedIdx = [];
-      for (var i = 0; i < this.props.answer.length; i++) {
-        let num = this.generateNewIdx(usedIdx);
-        if (num === this.props.correctAnsIdx) {
-          currentQuestion.correctAnsIdx = num;
-        }
-        currentQuestion.answer.push(this.props.answer[num]);
-        usedIdx.push(num);
-      }
-    } else {
-      currentQuestion.answer = this.props.answer;
-      currentQuestion.correctAnsIdx = this.props.correctAnsIdx;
-    }
-
-    this.updateState({
-      answer: currentQuestion.answer,
-      icon: ["heart", "smiley", "sun", "triangle"],
-      shuffle: false,
-      correctAnsIdx: currentQuestion.correctAnsIdx
-    });
-  }
-
-  generateNewIdx(usedIdx) {
-    let num = Math.floor(Math.random() * this.props.answer.length);
-    if (usedIdx.includes(num)) {
-      this.generateNewIdx(usedIdx);
-    } else {
-      return num;
-    }
+    // console.log(this.state);
   }
 
   updateState(newState) {
