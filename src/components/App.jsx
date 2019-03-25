@@ -64,6 +64,7 @@ class App extends Component {
           timeLeft: that.state.timeLeft - 1
         });
       } else {
+        alert("time is up!");
         that.setState({
           timeIsUp: true
         });
