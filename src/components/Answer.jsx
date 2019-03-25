@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Timer from "./Timer.jsx";
 // import components
 import "../css/Answer.css";
 
@@ -11,6 +12,9 @@ class Answer extends Component {
     }
   }
 
+  // if(Timer.state.timeIsUp){
+  //   incorrectAnswer();
+  // }
   correctAnswer() {
     alert("Correct!");
   }

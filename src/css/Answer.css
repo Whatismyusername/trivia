@@ -5,8 +5,11 @@
 .Answer {
   background-color: grey;
   color: white;
-  border-radius: 100px;
+  /* border-radius: 100px; */
+  font-size: 5vh;
   border: transparent;
+  width: 50%;
+  height: 50%;
   float: left;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  /* box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }

@@ -12,18 +12,24 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      questions: 0,
       currentQuestion: {
         questionText: "What planet is closest to the sun?",
         answer: ["Mars", "Mercury", "Jupiter", "Earth"],
         correctAnsIdx: 0
       },
-      shuffle: true
+      mode: "classic",
+      shuffle: true,
+      isQuestionOver: false,
+      timeLeft: 30,
+      timeIsUp: false
     };
+
     firebaseDatabase
       .ref("/questions")
       .once("value")
       .then(snapshot => {
-        let questions = snapshot.val();
+        var questions = snapshot.val();
         let randomQuestion = getRandomQuestion(questions);
         let answer = this.shuffle(
           randomQuestion.choices,
@@ -43,6 +49,7 @@ class App extends Component {
             answer.correctAnsIdx
         );
         this.setState({
+          questions: questions,
           currentQuestion: {
             questionText: randomQuestion.question_text,
             answer: answer.answer,
@@ -50,8 +57,36 @@ class App extends Component {
           }
         });
       });
+    let that = this;
+    this.timer = setInterval(function() {
+      if (that.state.timeLeft > 0) {
+        that.setState({
+          timeLeft: that.state.timeLeft - 1
+        });
+      } else {
+        that.setState({
+          timeIsUp: true
+        });
+      }
+    }, 1000);
   }
 
+  setQuestionOver() {
+    this.setState({
+      isQuestionOver: true
+    });
+  }
+
+  componentsDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.isQuestionOver) {
+      this.setState({
+        isQuestionOver: false
+      });
+    }
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
   shuffle(answer, idx) {
     var currentQuestion = {
       answer: [],
@@ -89,37 +124,10 @@ class App extends Component {
     }
   }
 
-  // shuffle(answerChoices, correctIdx) {
-  //   var shuffled = {
-  //     answer: [],
-  //     correctIdx: ""
-  //   };
-  //   var shuffledIdx = [];
-  //   var newIdxArray = this.newIdxArray(shuffledIdx, answerChoices.length);
-  //   for (var i = 0; i < newIdxArray.length; i++) {
-  //     shuffled.answer.push(newIdxArray[i]);
-  //   }
-  // }
-
-  // newIdxArray(shuffledIdx, length) {
-  //   let randomIdx = Math.floor(Math.random() * length);
-  //   if (shuffledIdx.includes(randomIdx)) {
-  //     this.newIdxArray(shuffledIdx, length);
-  //   } else {
-  //     shuffledIdx.push(randomIdx);
-  //     newCorrectIdx;
-  //   }
-  //   if (shuffledIdx.length < length) {
-  //     this.newIdxArray(shuffledIdx, length);
-  //   }
-  // }
-
-  // newCorrectIdx() {}
-
   render() {
     return (
       <div className="app">
-        <Timer />
+        <Timer mode={this.state.mode} timeLeft={this.state.timeLeft} />
         <Question question={this.state.currentQuestion.questionText} />
         <AnswerList
           answer={this.state.currentQuestion.answer}

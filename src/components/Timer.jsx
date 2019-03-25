@@ -6,20 +6,20 @@ class Timer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      timeleft: 30
+      mode: this.props.mode
     };
-    let that = this;
-    this.timer = setInterval(function() {
-      that.setState({
-        timeleft: that.state.timeleft - 1
-      });
-    }, 1000);
   }
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
+
   render() {
-    return <p>{this.state.timeleft}</p>;
+    return (
+      <div className="timer">
+        <p className="timerText">{this.props.timeLeft}</p>
+        <img
+          id="TrivieLogo"
+          src="https://uploads.codesandbox.io/uploads/user/4c5b85cc-a302-4b72-97fa-14ea2c6cd846/x5Zp-Trivie.png"
+        />
+      </div>
+    );
   }
 }
 
